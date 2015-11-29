@@ -15,7 +15,8 @@ entity left_right_leds is
                   rotary_b : in std_logic;
               rotary_press : in std_logic;
                        clk : in std_logic;
-                       PB  : in std_logic_vector(3 downto 0)
+                       PB  : in std_logic_vector(3 downto 0);
+                       SW  : in std_logic
                       );
     end left_right_leds;
 --
