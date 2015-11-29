@@ -46,11 +46,11 @@ signal               R1 : std_logic_vector(bus_width-1 downto 0) := (others => '
 signal               R2 : std_logic_vector(bus_width-1 downto 0) := (others => '0');
 signal               R3 : std_logic_vector(bus_width-1 downto 0) := (others => '1');
 signal               CNT: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal               AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal 				 ACC: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
-signal 				 FF : std_logic;
-signal 		      start : std_logic;
-alias 				  M : std_logic is ACC(0);
+signal           AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
+signal 		     ACC: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
+signal 		     FF : std_logic;
+signal 		  start : std_logic;
+alias 		      M : std_logic is ACC(0);
 signal            state : integer range 0 to (bus_width + 1) * 2 := 0;
 
 --
