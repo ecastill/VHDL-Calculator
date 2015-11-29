@@ -217,11 +217,12 @@ begin
 						ACC(16 downto 8) <= '0' & ACC(15 downto 8) +_R1;
 						State <= State + 1;
 					else
-						ACC <= '0' --
-						--
-					end if
-				when 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 => 
-					--
+						ACC <= '0' & ACC(16 downto 1); --shift accumulator right
+						state<= state+2;
+					end if;
+				when 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 =>	--just shift
+					ACC<='0' & ACC(16 downto 1);	--right shift	
+					state<= state + 1;
 				when 17 => 
 					RDY <= '1';
 			end case;
