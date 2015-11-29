@@ -8,8 +8,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --
 entity left_right_leds is
 	generic (
-		bus_width : integher := 8;
-	);
+		bus_width : integer := 8);
     Port (             led : out std_logic_vector(7 downto 0);
                   rotary_a : in std_logic;
                   rotary_b : in std_logic;
@@ -32,7 +31,7 @@ architecture Behavioral of left_right_leds is
 --
 signal      rotary_a_in : std_logic;
 signal      rotary_b_in : std_logic;
-signal  rotary_press_in : std_logic;
+signal  rotary_press_in : std_logic;   
 signal        rotary_in : std_logic_vector(1 downto 0);
 signal        rotary_q1 : std_logic;
 signal        rotary_q2 : std_logic;
@@ -46,11 +45,11 @@ signal               R1 : std_logic_vector(bus_width-1 downto 0) := (others => '
 signal               R2 : std_logic_vector(bus_width-1 downto 0) := (others => '0');
 signal               R3 : std_logic_vector(bus_width-1 downto 0) := (others => '1');
 signal               CNT: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal           AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal 		     ACC: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
-signal 		     FF : std_logic;
-signal 		  start : std_logic;
-alias 		      M : std_logic is ACC(0);
+signal               AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
+signal 				 ACC: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
+signal 				 FF : std_logic;
+signal 		      start : std_logic;
+alias 				  M : std_logic is ACC(0);
 signal            state : integer range 0 to (bus_width + 1) * 2 := 0;
 
 --
@@ -148,7 +147,7 @@ begin
 						R3 <= R3 + '1';
 					end if;	
 				else 
-					-- Ignore rotary events
+					-- ignore  rotary events
 					if rotary_left = '1' then	
 						AC_PART <= ACC(7 downto 0);
 					else 
@@ -159,7 +158,7 @@ begin
 		end if;
 	end process reg_control;
   
-	--
+	
 	--
 	----------------------------------------------------------------------------------------------------------------------------------
 	-- LED control.
@@ -214,7 +213,7 @@ begin
 					end if;
 				when 1 | 3 |5 | 7 | 9 | 11 | 13 |15 =>
 					if M = '1' then
-						ACC(16 downto 8) <= '0' & ACC(15 downto 8) +_R1;
+						ACC(16 downto 8) <= '0' & ACC(15 downto 8) + R1;
 						State <= State + 1;
 					else
 						ACC <= '0' & ACC(16 downto 1); --shift accumulator right
@@ -228,7 +227,7 @@ begin
 			end case;
 		end if;
 	end process FSM;
-	Done <= '1' when state = 17 else '0';
+	
   
 end Behavioral;
 
@@ -240,4 +239,3 @@ end Behavioral;
 -- END OF FILE left_right_leds.vhd
 --
 ------------------------------------------------------------------------------------------------------------------------------------
-
