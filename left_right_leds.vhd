@@ -228,7 +228,7 @@ begin
 			end case;
 		end if;
 	end process FSM;
-	
+	Done <= '1' when state = 17 else '0';
   
 end Behavioral;
 
