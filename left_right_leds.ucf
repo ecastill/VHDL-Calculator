@@ -28,6 +28,7 @@ NET "led<6>" LOC = "E9"  | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
 NET "led<7>" LOC = "F9"  | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 4;
 #
 #
+#
 #Push Buttons
 #
 NET "PB<0>" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
@@ -44,6 +45,14 @@ NET "rotary_a"     LOC = "K18" | IOSTANDARD = LVTTL | PULLUP;
 NET "rotary_b"     LOC = "G18" | IOSTANDARD = LVTTL | PULLUP;
 NET "rotary_press" LOC = "V16" | IOSTANDARD = LVTTL | PULLDOWN;
 #
+#
+# Sliders
+#
+#
+NET "SW<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP ;
+NET "SW<1>" LOC = "L14" | IOSTANDARD = LVTTL | PULLUP ;
+NET "SW<2>" LOC = "H18" | IOSTANDARD = LVTTL | PULLUP ;
+NET "SW<3>" LOC = "N17" | IOSTANDARD = LVTTL | PULLUP ;
 #
 # End of File
 #
