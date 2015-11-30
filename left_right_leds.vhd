@@ -8,14 +8,14 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --
 entity left_right_leds is
 	generic (
-		bus_width : integer := 8);
+		bus_width : integer := 8
+	);
     Port (             led : out std_logic_vector(7 downto 0);
                   rotary_a : in std_logic;
                   rotary_b : in std_logic;
               rotary_press : in std_logic;
                        clk : in std_logic;
-                       PB  : in std_logic_vector(3 downto 0);
-                       SW  : in std_logic
+                       PB  : in std_logic_vector(3 downto 0)
                       );
     end left_right_leds;
 --
@@ -31,7 +31,7 @@ architecture Behavioral of left_right_leds is
 --
 signal      rotary_a_in : std_logic;
 signal      rotary_b_in : std_logic;
-signal  rotary_press_in : std_logic;   
+signal  rotary_press_in : std_logic;
 signal        rotary_in : std_logic_vector(1 downto 0);
 signal        rotary_q1 : std_logic;
 signal        rotary_q2 : std_logic;
@@ -46,11 +46,13 @@ signal               R2 : std_logic_vector(bus_width-1 downto 0) := (others => '
 signal               R3 : std_logic_vector(bus_width-1 downto 0) := (others => '1');
 signal               CNT: std_logic_vector(bus_width-1 downto 0) := (others => '0');
 signal               AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal 				 ACC: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
+signal 				 ACC: std_logic_vector(bus_width*2 downto 0) := (others => '0');
+signal 				 ACC_TRUE: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
 signal 				 FF : std_logic;
 signal 		      start : std_logic;
+signal 		        RDY : std_logic := '0';
 alias 				  M : std_logic is ACC(0);
-signal            state : integer range 0 to (bus_width + 1) * 2 := 0;
+signal            state : integer range 0 to 17 := 0;
 
 --
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -147,18 +149,18 @@ begin
 						R3 <= R3 + '1';
 					end if;	
 				else 
-					-- ignore  rotary events
+					-- Ignore rotary events
 					if rotary_left = '1' then	
-						AC_PART <= ACC(7 downto 0);
+						AC_PART <= ACC_TRUE(7 downto 0);
 					else 
-						AC_PART <= ACC(15 downto 8);
+						AC_PART <= ACC_TRUE(15 downto 8);
 					end if;
 				end if;
 			end if;			
 		end if;
 	end process reg_control;
   
-	
+	--
 	--
 	----------------------------------------------------------------------------------------------------------------------------------
 	-- LED control.
@@ -208,35 +210,27 @@ begin
 			case state is
 				when 0 =>
 					if start = '1' then
-						state <= 1;
-						ACC <= (7 downto 0 => R2, others => '0');
+						State <= 1;
+						ACC <= R2 & (7 downto 0 => '0');
 					end if;
 				when 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 =>
 					if M = '1' then
 						ACC(16 downto 8) <= '0' & ACC(15 downto 8) + R1;
 						State <= State + 1;
 					else
-						ACC <= '0' & ACC(16 downto 1); --shift accumulator right
-						state<= state+2;
+						ACC <= '0' & ACC(16 downto 1);
+						State <= State + 2;
 					end if;
-				when 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 =>	--just shift
-					ACC <= '0' & ACC(16 downto 1);	--right shift	
-					state<= state + 1;
+				when 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 => 
+					ACC <= '0' & ACC(16 downto 1);
+					State <= State + 1;
 				when 17 => 
 					RDY <= '1';
+					ACC_TRUE <= ACC(15 downto 0);
+					State <= 0;
 			end case;
 		end if;
 	end process FSM;
-	
-	
-	-----ADDER-----
-	---------------
---	Add: process(clk) is begin
---		if rising_edge(clk) then
---			begin
---				R3 <= (R1+R2) when 
---		end if;
---	end process Add;
 	
   
 end Behavioral;
@@ -249,3 +243,4 @@ end Behavioral;
 -- END OF FILE left_right_leds.vhd
 --
 ------------------------------------------------------------------------------------------------------------------------------------
+
