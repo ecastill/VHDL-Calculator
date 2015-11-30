@@ -211,7 +211,7 @@ begin
 						state <= 1;
 						ACC <= (7 downto 0 => R2, others => '0');
 					end if;
-				when 1 | 3 |5 | 7 | 9 | 11 | 13 |15 =>
+				when 1 | 3 | 5 | 7 | 9 | 11 | 13 | 15 =>
 					if M = '1' then
 						ACC(16 downto 8) <= '0' & ACC(15 downto 8) + R1;
 						State <= State + 1;
@@ -220,13 +220,23 @@ begin
 						state<= state+2;
 					end if;
 				when 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 =>	--just shift
-					ACC<='0' & ACC(16 downto 1);	--right shift	
+					ACC <= '0' & ACC(16 downto 1);	--right shift	
 					state<= state + 1;
 				when 17 => 
 					RDY <= '1';
 			end case;
 		end if;
 	end process FSM;
+	
+	
+	-----ADDER-----
+	---------------
+--	Add: process(clk) is begin
+--		if rising_edge(clk) then
+--			begin
+--				R3 <= (R1+R2) when 
+--		end if;
+--	end process Add;
 	
   
 end Behavioral;
