@@ -45,14 +45,23 @@ signal               R1 : std_logic_vector(bus_width-1 downto 0) := (others => '
 signal               R2 : std_logic_vector(bus_width-1 downto 0) := (others => '0');
 signal               R3 : std_logic_vector(bus_width-1 downto 0) := (others => '1');
 signal               CNT: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal               AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
-signal 				 ACC: std_logic_vector(bus_width*2 downto 0) := (others => '0');
-signal 				 ACC_TRUE: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
-signal 				 FF : std_logic;
-signal 		      start : std_logic;
-signal 		        RDY : std_logic := '0';
-alias 				  M : std_logic is ACC(0);
+signal           AC_PART: std_logic_vector(bus_width-1 downto 0) := (others => '0');
+signal 	             ACC: std_logic_vector(bus_width*2 downto 0) := (others => '0');
+signal 		ACC_TRUE: std_logic_vector(bus_width*2-1 downto 0) := (others => '0');
+signal 		     FF : std_logic;
+signal 		  start : std_logic;
+signal 		    RDY : std_logic := '0';
+alias 		      M : std_logic is ACC(0);
 signal            state : integer range 0 to 17 := 0;
+--
+--signals for divider
+--
+signal sign,c,Cm2:bit;
+signal Divisor, Sum, Comput: unsigned(7 downto 0);
+signal Dividend:unsigned(15 downto 0);
+alias dAcc: unsigned(7 downto 0) is Dividend(15 downto 8);
+
+
 
 --
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -232,7 +241,69 @@ begin
 		end if;
 	end process FSM;
 	
-  
+--
+--DIVISOR
+--
+--
+	Cm2 <= not divisor(7);
+	compout <= divisor when Cm2 ='0'
+		else not divisor;
+	Sum <= dAcc+compout+unsigned'(0=>Cm2);		--adder output
+	C<= not Sum(7);
+	Quotient <= Dividend(7 downto 0);
+	RDY <= '1' when state =0 else '0';
+	
+	DIV: process(clk) is begin
+		if CLK'event and CLK = '1' then
+			case state is
+				when 0=>
+					if St = '1' then
+						dAcc <= Dbus;		--load upper dividend
+						Sign <= Dbus(7);
+						state <= 1;
+						V<= '0';
+						Cnt<="0000";
+					end if;
+				when 1 =>
+					Dividend (7 downto 0) <= Dbus;
+					state <=2;
+				when 2 =>
+					Divisor <= Dbus;
+					if Sign ='1' then
+						dividend <= not dividend +1;
+					end if;
+					state <=3;
+				when 3 =>
+					dividend <=(14 downto 0)&'0';
+					cnt <= cnt +1; state <= 4;
+				when 4 =>
+					if C='1' then
+						v<= '1'; state <=0;
+					else 
+						dividend <= divident(14 downto 0)&'0';
+						cnt <= cnt+1;state <=5;
+					end if;
+				when 5 =>
+					if C='1' then
+						dAcc <=sum;
+						dividend(0)<='1';
+					else
+						dividend <= divident(14 downto 0)&'0';
+						if cnt =7 then state<=6; end if;
+						cnt<=cnt+1;
+					end if;
+				when 6 =>
+					state<=0;
+					if C='1' then
+						dAcc<=sum;
+						divident(0)<='1'; state <=6;
+					elsif(Sign xor Divisor(7))='1' then
+						Dividend <= not Dividend +1;
+					end if;
+				end case;
+		end if;
+	end process DIV;
+
 end Behavioral;
 
 
