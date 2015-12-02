@@ -258,22 +258,7 @@ if CLK'event and CLK = '1' then
 --ADDITION
 --
 
-  adders: for 8 in 0 to 7 generate
-
-    myfulladder: fulladder
-      port map (
-        A  => A(7),
-        B  => B(7),
-        CI => carry_internal(7),
-        CO => carry_internal(8)
-      );
-
-  end generate;
-
-  carry_internal(0) <= CI;
-
-  CO <= carry_internal(bits);
-
+R3(4 downto 0) <= (’0’ & R1) + R2;
 
 	else if(sw(1)='1') then 
 --
