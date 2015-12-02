@@ -251,32 +251,35 @@ if CLK'event and CLK = '1' then
 --
 --ADDITION
 --
-component generic_adder is
-    generic (
-   	  bits: integer
-    );
+component fulladder is
     port (
-      A:  in  std_logic_vector(bits-1 downto 0);
-      B:  in  std_logic_vector(bits-1 downto 0);
+      A:  in  std_logic;
+      B:  in  std_logic;
       CI: in  std_logic;
-      O:  out std_logic_vector(bits-1 downto 0);
+      O:  out std_logic;
       CO: out std_logic
     );
-end component generic_adder;
+  end component fulladder;
+
+  signal carry_internal: std_logic_vector(bits downto 0);
 
 begin
 
-  adder: generic_adder
-    generic map (
-      bits => 16
-    )
-    port map (
-      A  => A,
-      B  => B,
-      CI => CI,
-      O  => O,
-      CO => CO
-    );
+  adders: for 8 in 0 to 7 generate
+
+    myfulladder: fulladder
+      port map (
+        A  => A(7),
+        B  => B(7),
+        CI => carry_internal(7),
+        CO => carry_internal(8)
+      );
+
+  end generate;
+
+  carry_internal(0) <= CI;
+
+  CO <= carry_internal(bits);
 
 
 	else if(sw(1)='1') then 
