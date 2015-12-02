@@ -225,8 +225,8 @@ begin
 --invert all numbers
 --add 1
 
---make a half adder component
-component halfadder
+--make a fulladder component
+component fulladder
     port(
          a : in std_logic;
          b : in std_logic;
@@ -251,19 +251,6 @@ if CLK'event and CLK = '1' then
 --
 --ADDITION
 --
-component fulladder is
-    port (
-      A:  in  std_logic;
-      B:  in  std_logic;
-      CI: in  std_logic;
-      O:  out std_logic;
-      CO: out std_logic
-    );
-  end component fulladder;
-
-  signal carry_internal: std_logic_vector(bits downto 0);
-
-begin
 
   adders: for 8 in 0 to 7 generate
 
