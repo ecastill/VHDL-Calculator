@@ -231,45 +231,28 @@ begin
 --invert all numbers
 --add 1
 
---make a fulladder component
-component fulladder
-    port(
-         a : in std_logic;
-         b : in std_logic;
-         sum : out std_logic;
-         carry : out std_logic
-        );
-end component;
---make a two's complement component or split that up? idk
-
-
-
---signals
-signal s1,c1,c2 : std_logic:='0';
-
-
 
 --
 --if else statements for the switches
 --
 if CLK'event and CLK = '1' then
 	if(switch(0)='1') then 
---
---ADDITION
---
+		--
+		--ADDITION
+		--
 
-R3(4 downto 0) <= (’0’ & R1) + R2;
+		R3(4 downto 0) <= (’0’ & R1) + R2;
 
 	else if(sw(1)='1') then 
---
---SUBTRACTION
---
---need a twos complement then add
+		--
+		--SUBTRACTION
+		--
+		--need a twos complement then add
 
 	else if(switch(2)='1') then 
---
---	MULTIPLICATION
---
+		--
+		--	MULTIPLICATION
+		--
 	FSM: process(clk) is begin
 		if rising_edge(clk) then
 			RDY <= '0';
