@@ -247,7 +247,7 @@ signal s1,c1,c2 : std_logic:='0';
 --if else statements for the switches
 --
 if CLK'event and CLK = '1' then
-	if(sw(0)='1') then 
+	if(switch(0)='1') then 
 --
 --ADDITION
 --
@@ -275,7 +275,7 @@ if CLK'event and CLK = '1' then
 --
 --need a twos complement then add
 
-	else if(sw(2)='1') then 
+	else if(switch(2)='1') then 
 --
 --	MULTIPLICATION
 --
