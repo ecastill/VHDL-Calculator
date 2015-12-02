@@ -225,6 +225,21 @@ begin
 --invert all numbers
 --add 1
 
+--make a half adder component
+component halfadder
+    port(
+         a : in std_logic;
+         b : in std_logic;
+         sum : out std_logic;
+         carry : out std_logic
+        );
+end component;
+--make a two's complement component or split that up? idk
+
+
+
+--signals
+signal s1,c1,c2 : std_logic:='0';
 
 
 
@@ -236,6 +251,33 @@ if CLK'event and CLK = '1' then
 --
 --ADDITION
 --
+component generic_adder is
+    generic (
+   	  bits: integer
+    );
+    port (
+      A:  in  std_logic_vector(bits-1 downto 0);
+      B:  in  std_logic_vector(bits-1 downto 0);
+      CI: in  std_logic;
+      O:  out std_logic_vector(bits-1 downto 0);
+      CO: out std_logic
+    );
+end component generic_adder;
+
+begin
+
+  adder: generic_adder
+    generic map (
+      bits => 16
+    )
+    port map (
+      A  => A,
+      B  => B,
+      CI => CI,
+      O  => O,
+      CO => CO
+    );
+
 
 	else if(sw(1)='1') then 
 --
