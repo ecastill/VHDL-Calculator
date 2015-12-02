@@ -67,7 +67,13 @@ alias dAcc: unsigned(7 downto 0) is Dividend(15 downto 8);
 --signal for switches
 --
 signal 		switch : std_logic_vector(3 downto 0) := (others => '0');
-
+--
+--signal for adder
+--
+signal x : STD_LOGIC_VECTOR(7 downto 0);
+signal y : STD_LOGIC_VECTOR(7 downto 0);
+signal carry : STD_LOGIC_VECTOR(7 downto 0);
+signal result : STD_LOGIC_VECTOR(8 downto 0);
 
 
 --
