@@ -15,7 +15,8 @@ entity left_right_leds is
                   rotary_b : in std_logic;
               rotary_press : in std_logic;
                        clk : in std_logic;
-                       PB  : in std_logic_vector(3 downto 0)
+                       PB  : in std_logic_vector(3 downto 0);
+                       SW  : in std_logic_vector(3 downto 0)
                       );
     end left_right_leds;
 --
@@ -60,6 +61,12 @@ signal sign,c,Cm2:bit;
 signal Divisor, Sum, Comput: unsigned(7 downto 0);
 signal Dividend:unsigned(15 downto 0);
 alias dAcc: unsigned(7 downto 0) is Dividend(15 downto 8);
+
+
+--
+--signal for switches
+--
+signal 		sw : std_logic_vector(3 downto 0) := (others => '0');
 
 
 
