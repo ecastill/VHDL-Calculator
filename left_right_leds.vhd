@@ -233,10 +233,15 @@ begin
 --
 if CLK'event and CLK = '1' then
 	if(sw(0)='1') then 
-
+--
+--ADDITION
+--
 
 	else if(sw(1)='1') then 
-
+--
+--SUBTRACTION
+--
+--need a twos complement then add
 
 	else if(sw(2)='1') then 
 --
