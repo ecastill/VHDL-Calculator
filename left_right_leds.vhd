@@ -219,7 +219,29 @@ begin
 		end if;
 	end process start_detector;
 	--
-	--
+	
+	
+--SOMETHING TO DO TWO'S COMPLEMENT
+--invert all numbers
+--add 1
+
+
+
+
+--
+--if else statements for the switches
+--
+if CLK'event and CLK = '1' then
+	if(sw(0)='1') then 
+
+
+	else if(sw(1)='1') then 
+
+
+	else if(sw(2)='1') then 
+--
+--	MULTIPLICATION
+--
 	FSM: process(clk) is begin
 		if rising_edge(clk) then
 			RDY <= '0';
@@ -247,7 +269,10 @@ begin
 			end case;
 		end if;
 	end process FSM;
-	
+
+
+	else if(sw(3)='1') then 
+
 --
 --DIVISOR
 --
@@ -311,14 +336,13 @@ begin
 		end if;
 	end process DIV;
 
+	end if;
+end if;
+
 end Behavioral;
-
-
-
 
 ------------------------------------------------------------------------------------------------------------------------------------
 --
 -- END OF FILE left_right_leds.vhd
 --
 ------------------------------------------------------------------------------------------------------------------------------------
-
