@@ -1,0 +1,17 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity adder is
+	port (	in1 : in std_logic;
+				in2 : in std_logic;
+				in3 : in std_logic;
+				oot : out std_logic;
+				Cout : out std_logic);
+end entity;
+
+architecture behavioral of adder is 
+	--signal
+begin
+	oot <= ((not in1) and (not in2) and in3) or ((not in1) and in2 and (not in3)) or (in1 and (not in2) and (not in3)) or (in1 and in2 and in3);
+	Cout <= ((not in1) and in2 and in3) or (in1 and (not in2) and in3) or (in1 and in2 and (not in3)) or (in1 and in2 and in3);
+end architecture behavioral;
