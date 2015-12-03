@@ -1,0 +1,35 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity topLevel is
+	port (	X : in std_logic_vector(7 downto 0);
+				Y : in std_logic_vector(7 downto 0);
+				R : out std_logic_vector(7 downto 0);
+				CC : out std_logic);
+end entity;
+
+architecture stuctural of topLevel is 
+	--adder component
+	component adder is
+		port (	in1 : in std_logic;
+					in2 : in std_logic;
+					in3 : in std_logic;
+					oot : out std_logic;
+					Cout : out std_logic);
+	end component;
+	--signals for adder
+	signal S12 : std_logic;
+	signal S23 : std_logic;
+	signal S34 : std_logic;
+begin
+	add1: adder port map (x(0),y(0),'0',R(0),S12);
+	add2: adder port map (x(1),y(1),S12,R(1),S23);
+	add3: adder port map (x(2),y(2),S23,R(2),S34);
+	add4: adder port map (x(3),y(3),S34,R(3),S45);
+	add5: adder port map (x(4),y(4),S45,R(4),S56);
+	add6: adder port map (x(5),y(5),S56,R(5),S67);
+	add7: adder port map (x(6),y(6),S67,R(6),S78);
+	add8: adder port map (x(7),y(7),S78,R(7),Cout);
+end architecture stuctural;
+
+
